@@ -1,5 +1,5 @@
 // global variables
-var issuesContainer = document.querySelector("#issues-container");
+var issuesContainerEl = document.querySelector("#issues-container");
 
 // functions
 // function to fetch data from a specific repo
@@ -21,6 +21,11 @@ function getRepoIssues(repo) {
 };
 // function to dynamically create and display the list off issues for requested repo
 function displayIssues(issues) {
+    // check for no issues
+    if (issues.length === 0) {
+        issuesContainerEl.textContent = "This repo has no open issues!";
+    }
+
     // create an issue element for each repo issue
     for (var i = 0; i < issues.length; i++) {
         // create a link element to take users to the issue on github
@@ -50,7 +55,7 @@ function displayIssues(issues) {
         issueEl.appendChild(typeEl);
 
         // append to list container
-        issuesContainer.appendChild(issueEl);
+        issuesContainerEl.appendChild(issueEl);
     }
 }
 

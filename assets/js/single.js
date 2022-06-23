@@ -1,8 +1,28 @@
 // global variables
 var issuesContainerEl = document.querySelector("#issues-container");
 var limitWarningEl = document.querySelector("#limit-warning");
+var repoNameEl = document.querySelector("#repo-name");
 
 // functions
+// function to retrieve repo name from query string
+function getRepoName() {
+    // retrieve query string
+    var queryString = document.location.search;
+    // get repo name from query string
+    var repoName = queryString.split("=")[1];
+    
+    // verify a repo name was entered
+    if (repoName) {
+        // retrieve repo issues
+        getRepoIssues(repoName);
+
+        // update page heading with repo name
+        repoNameEl.textContent = repoName;
+    } else {
+        // redirect to homepage if not
+        document.location.replace("../index.html");
+    }
+}
 // function to fetch data from a specific repo
 function getRepoIssues(repo) {
     var apiUrl = "https://api.github.com/repos/" + repo + "/issues?direction=asc";
@@ -21,7 +41,8 @@ function getRepoIssues(repo) {
                 }
             });
         } else {
-            alert("There was a problem with your request!");
+            // if not successful, redirect to homepage
+            document.location.replace("../index.html");
         }
     });
 };
@@ -78,4 +99,5 @@ function displayWarning(repo) {
     limitWarningEl.appendChild(linkEl);
 }
 
-getRepoIssues("twitter/chill");
+// retrieve repo name to list issues
+getRepoName();
